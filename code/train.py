@@ -26,10 +26,13 @@ def prepare_output_labels(outputs, labels, idx):
     tmp_labels = []
     tmp_outputs = []
     max_label = 0
+    labels_cpu = [l.clone().detach().cpu() for l in labels]
+    outputs_cpu = [o.clone().detach().cpu() for o in outputs]
+    idx_cpu = [i.clone().detach().cpu() for i in idx]
     for i in range(len(labels)):
-        tmp_labels.extend(labels[i][idx[i]] + max_label)
-        tmp_outputs.extend((outputs[i].max(1)[1].type_as(labels[i]) + max_label)[idx[i]])
-        max_label = labels[i].max()
+        tmp_labels.extend(labels_cpu[i][idx_cpu[i]] + max_label)
+        tmp_outputs.extend((outputs_cpu[i].max(1)[1].type_as(labels_cpu[i]) + max_label)[idx_cpu[i]])
+        max_label = labels_cpu[i].max()
 
     return tmp_outputs, tmp_labels
 
@@ -176,7 +179,7 @@ def test():
 if __name__=='__main__':
     # Training settings
     parser = argparse.ArgumentParser()
-    parser.add_argument('--no-cuda', action='store_true', default=True,
+    parser.add_argument('--no-cuda', action='store_true', default=False,
                         help='Disables CUDA training.')
     parser.add_argument('--fastmode', action='store_true', default=False,
                         help='Validate during training pass.')
