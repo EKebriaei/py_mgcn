@@ -78,7 +78,9 @@ def load_features_labels(layer_num, path, dataset,N=-1):
     temp = "{}{}.feat"+str(layer_num)
     idx_features_labels = np.genfromtxt(temp.format(path, dataset),
                                         dtype=np.dtype(str))
+    # print(f'idx_features_labels.shape: {idx_features_labels.shape}')
     temp = idx_features_labels[:, 1:-1]
+    # print(f'temp = idx_features_labels[:, 1:-1] . shape : {temp.shape}')
     if temp.size == 0:
         features = sp.csr_matrix(np.identity(N), dtype=np.float32)
     else:
@@ -86,7 +88,8 @@ def load_features_labels(layer_num, path, dataset,N=-1):
     labels = encode_onehot(idx_features_labels[:, -1])
 
     #build graph
-    idx = np.array(idx_features_labels[:, 0], dtype=np.int32)
+    # idx = np.array(idx_features_labels[:, 0], dtype=np.int32)
+    idx = idx_features_labels[:, 0].astype(np.float32).astype(np.int32)
     idx_map = {j: i for i, j in enumerate(idx)}
 
     features = normalize(features)

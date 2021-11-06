@@ -1,8 +1,8 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from layers import GraphConvolution, CrossLayer
-from utils import between_index
+# from layers import GraphConvolution, CrossLayer
+# from utils import between_index
 
 
 class GCN(nn.Module):

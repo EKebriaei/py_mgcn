@@ -10,8 +10,8 @@ import torch.optim as optim
 
 from sklearn.metrics import f1_score
 
-from utils import load_data, class_accuracy, class_f1, layer_accuracy, layer_f1, dict_to_writer, trains_vals_tests_split
-from models import CCN
+# from utils import load_data, class_accuracy, class_f1, layer_accuracy, layer_f1, dict_to_writer, trains_vals_tests_split
+# from models import CCN
 from tensorboardX import SummaryWriter
 
 # f1 name should be f1_micro or f1_macro
@@ -188,10 +188,10 @@ if __name__=='__main__':
     parser.add_argument('--dropout', type=float, default=0.5,
                         help='Dropout rate (1 - keep probability).')
 
-    args = parser.parse_args()
+    args = parser.parse_args("")
     args.cuda = not args.no_cuda and torch.cuda.is_available()
 
-    dataset_str = "infra"
+    dataset_str = "tweets"
 
     # parameter
     # All combination of parameters will be tested
@@ -210,7 +210,7 @@ if __name__=='__main__':
 
     # Load data
     adjs, adjs_orig, adjs_sizes, adjs_pos_weights, adjs_norms, bet_pos_weights, bet_norms, bet_adjs, bet_adjs_orig, bet_adjs_sizes, \
-    features, features_sizes, labels, labels_nclass = load_data(path="../data/" + dataset_str + "/", dataset=dataset_str)
+    features, features_sizes, labels, labels_nclass = load_data(path="./data/" + dataset_str + "/", dataset=dataset_str)
     # Number of layers
     n_inputs = len(adjs)
     # Weights of layers
@@ -267,5 +267,4 @@ if __name__=='__main__':
                                 test()
                             print("Optimization Finished!")
                             print("Total time elapsed: {:.4f}s".format(time.time() - t_total))
-
 
